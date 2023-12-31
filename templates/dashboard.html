@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    {% load static %}
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'dashboard.css' %}"
+    />
+  </head>
+  <body>
+    {% if user.is_authenticated %}
+    <h2>Dashboard</h2>
+
+    <form method="post" action="{% url 'shorten_url' %}">
+      {% csrf_token %}
+      <div class="form-group">
+        <input
+          type="text"
+          name="original_url"
+          placeholder="Enter your link"
+          required
+        />
+        <button type="submit" class="btn btn-primary">Shorten</button>
+      </div>
+    </form>
+
+    <br />
+
+    <table>
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Original URL</th>
+          <th>Short URL</th>
+          <th>Created Date</th>
+          <th>AD</th>
+          <th>Action</th>
+          <th>Visitors</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for url in user_urls %}
+        <tr>
+          <td>{{ url.user.username }}</td>
+          <td>{{ url.original_url }}</td>
+          <td>
+            <a href="{{ base_url }}{{ url.short_url }}" target="_blank" id="url"
+              >{{ base_url }}{{ url.short_url }}</a
+            >
+          </td>
+          <td>{{ url.created_at }}</td>
+          {% if url.has_ad == False %}
+          <td class="text-center"><a href="{{ url.short_url}}/ad/" class="uncheck"> &#10006; </a></td>
+          {% else %}
+          <td class="text-center"><a href="{{ url.short_url}}/ad/" class="check"> &check; </a></td>
+          {% endif %}
+          <td class="text-center"><a href="{{ url.short_url}}/delete/" class="delete"> &#10006; </a></td>
+          <td class="text-center">{{ url.visitors }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="button-container">
+      <a href="{% url 'home' %}" class="button-54">Home</a>
+      <a href="{% url 'signout' %}" class="button-54">Sign Out</a>
+      <a href="{% url 'delete_account' %}" class="button-54">Delete Acoount</a>
+    </div>
+
+    {% endif %}
+
+    <script></script>
+  </body>
+</html>

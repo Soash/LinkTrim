@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'signup.css' %}">
+
+</head>
+<body>
+
+    <h1>Reset Password</h1>
+
+    {% for message in messages %}
+    <div class="alert alert-error">
+        <strong>Message:</strong> {{ message }}
+    </div>
+    {% endfor %}
+
+    <h2>Hi, {{username}}</h2>
+    <form method="post" action="{% url 'savePass' %}"> {% csrf_token %}
+        <input type="hidden" name="username" value="{{ username }}">
+        <div class="form-group">
+            <label for="pass1">New Password</label>
+            <input type="password" class="form-control" name="pass1" placeholder="Create New Password" Required>
+        </div>
+        <div class="form-group">
+            <label for="pass2">Confirm Password</label>
+            <input type="password" class="form-control" name="pass2" placeholder="Confirm Your Password" Required>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Password</button>
+    </form>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'signup.css' %}">
+
+</head>
+<body>
+
+    <h1>Sign In</h1>
+
+    {% for message in messages %}
+    <div class="alert alert-error">
+        <strong>Message:</strong> {{ message }}
+    </div>
+    {% endfor %}
+
+    <form method="post" action="/signin/"> {% csrf_token %}
+
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="Enter Your Username" Required>
+        </div>
+        <div class="form-group">
+            <label for="pass1">Password <span onclick="tooglePW()"> &#9775; </span></label> 
+            <input type="password" class="form-control" id="pass1" name="pass1" placeholder="Enter Your Password" Required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Sign In</button>
+        
+    </form><a href="{% url 'forgot' %}" class="forgot">Fogotten Password?</a>
+
+    
+    <script>
+        function tooglePW() {
+          var x = document.getElementById("pass1");
+          if (x.type === "password") {
+            x.type = "text";
+          } else {
+            x.type = "password";
+          }
+        }
+    </script>
+
+</body>
+</html>
